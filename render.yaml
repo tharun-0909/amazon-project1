@@ -1,7 +1,7 @@
 services:
-  # Backend Web Service
+  # Fullstack Web Service (Express Backend serving Vite Frontend)
   - type: web
-    name: amazon-backend
+    name: amazon-project
     env: node
     rootDir: Backend
     buildCommand: npm install && npm run build
@@ -13,22 +13,5 @@ services:
         generateValue: true
       - key: PORT
         value: 5000
-
-  # Frontend Static Site (Commented out since it's served by the Express backend)
-  # - type: web
-  #   name: amazon-frontend
-  #   env: static
-  #   rootDir: frontend
-  #   buildCommand: npm install && npm run build
-  #   publishDir: dist
-  #   routes:
-  #     - type: rewrite
-  #       source: /*
-  #       destination: /index.html
-  #   envVars:
-  #     - key: VITE_API
-  #       fromService:
-  #         type: web
-  #         name: amazon-backend
-  #         property: host
-  #       value: https://${amazon-backend}.onrender.com/api
+      - key: VITE_API
+        value: /api

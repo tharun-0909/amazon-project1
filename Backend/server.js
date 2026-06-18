@@ -19,8 +19,8 @@ app.use("/api/orders", require("./routes/orderRoutes"));
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// Fallback to React index.html for all other routes
-app.get("*", (req, res) => {
+// Fallback to React index.html for all non-API routes
+app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
