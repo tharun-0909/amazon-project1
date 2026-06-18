@@ -2,10 +2,9 @@
 node_modules/
 
 # Local env files
-.env
+Backend/.env
 .env.local
 .env.*.local
-*.env
 
 # Production build directories
 dist/
