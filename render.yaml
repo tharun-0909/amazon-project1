@@ -4,7 +4,7 @@ services:
     name: amazon-project
     env: node
     rootDir: Backend
-    buildCommand: npm install && npm run build
+    buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: MONGO_URI
@@ -13,5 +13,3 @@ services:
         generateValue: true
       - key: PORT
         value: 5000
-      - key: VITE_API
-        value: /api
