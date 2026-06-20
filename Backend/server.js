@@ -25,23 +25,7 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", message: "Server is running" });
 });
 
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, "public")));
 
-// Fallback to React index.html for all non-API routes
-app.get(/^(?!\/api).*/, (req, res) => {
-  const indexPath = path.join(__dirname, "public", "index.html");
-  if (fs.existsSync(indexPath)) {
-    res.sendFile(indexPath);
-  } else {
-    res.status(500).send(`
-      <h2>Build Error</h2>
-      <p>Frontend not built. The build command did not run correctly.</p>
-      <p>Expected file: ${indexPath}</p>
-      <p>Make sure build command is: <code>npm install && npm run build</code></p>
-    `);
-  }
-});
 
 const PORT = process.env.PORT || 5000;
 
