@@ -6,6 +6,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ProductDetails from "./pages/ProductDetails";
 import OrderPlaced from "./pages/OrderPlaced";
 import OrdersPage from "./pages/OrdersPage";
+import AccountPage from "./pages/AccountPage";
 
 function App(){
     return(
@@ -18,6 +19,7 @@ function App(){
                 <Route path="/orderplaced" element={<OrderPlaced />} />
                 <Route path="/admin" element={<AdminDashboard/>}/>
                 <Route path="/orders" element={<OrdersPage />} />
+                <Route path="/account" element={<AccountPage />} />
             </Routes>
         </BrowserRouter>
     )

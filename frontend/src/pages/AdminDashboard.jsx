@@ -23,8 +23,13 @@ function AdminDashboard() {
 
   // Fetch products
   const getProducts = async () => {
-    const res = await axios.get(`${import.meta.env.VITE_API}/products`);
-    setProducts(res.data);
+    try {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL || ""}/api/products`);
+      setProducts(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error("Failed to fetch products:", err);
+      setProducts([]);
+    }
   };
 
   useEffect(() => {
@@ -33,60 +38,76 @@ function AdminDashboard() {
 
   // Add product
   const addProduct = async () => {
-    await axios.post(
-      `${import.meta.env.VITE_API}/products`,
-      product,
-      {
-        headers: {
-          authorization: localStorage.getItem("token")
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL || ""}/api/products`,
+        product,
+        {
+          headers: {
+            authorization: localStorage.getItem("token")
+          }
         }
-      }
-    );
-
-    alert("Product Added");
-
-    setProduct({
-      productId: "",
-      name: "",
-      price: "",
-      rating: "",
-      image: ""
-    });
-
-    getProducts();
+      );
+  
+      alert("Product Added");
+  
+      setProduct({
+        productId: "",
+        name: "",
+        price: "",
+        rating: "",
+        image: ""
+      });
+  
+      getProducts();
+    } catch (err) {
+      console.error("Failed to add product:", err);
+      alert("Failed to add product");
+    }
   };
 
   // Delete product
   const deleteProduct = async (id) => {
-    await axios.delete(
-      `${import.meta.env.VITE_API}/products/${id}`,
-      {
-        headers: {
-          authorization: localStorage.getItem("token")
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL || ""}/api/products/${id}`,
+        {
+          headers: {
+            authorization: localStorage.getItem("token")
+          }
         }
-      }
-    );
-
-    alert("Product Deleted");
-    getProducts();
+      );
+  
+      alert("Product Deleted");
+      getProducts();
+    } catch (err) {
+      console.error("Failed to delete product:", err);
+      alert("Failed to delete product");
+    }
   };
 
   // Update price
   const updatePrice = async (id, oldPrice) => {
     const newPrice = prompt("Enter new price:", oldPrice);
-
-    await axios.put(
-      `${import.meta.env.VITE_API}/products/${id}`,
-      { price: newPrice },
-      {
-        headers: {
-          authorization: localStorage.getItem("token")
+    if (newPrice === null) return;
+  
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_API_URL || ""}/api/products/${id}`,
+        { price: newPrice },
+        {
+          headers: {
+            authorization: localStorage.getItem("token")
+          }
         }
-      }
-    );
-
-    alert("Price Updated");
-    getProducts();
+      );
+  
+      alert("Price Updated");
+      getProducts();
+    } catch (err) {
+      console.error("Failed to update price:", err);
+      alert("Failed to update price");
+    }
   };
 
   return (

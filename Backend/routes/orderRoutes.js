@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Order = require("../models/Order");
-const { auth } = require("../middleware/authMiddleware");
+const { auth,admin } = require("../middleware/authMiddleware");
 
 
 // Place Order (User)
@@ -20,11 +20,12 @@ router.post("/", auth, async (req, res) => {
 });
 
 
-// Get All Orders (Admin)
-router.get("/", async (req, res) => {
+// Get Logged-in User Orders
+router.get("/myorders", auth, async (req, res) => {
   try {
-    const orders = await Order.find()
-      .populate("userId", "name")
+    const orders = await Order.find({
+      userId: req.user.id
+    })
       .populate("productId", "productId name price");
 
     res.json(orders);
@@ -34,5 +35,17 @@ router.get("/", async (req, res) => {
   }
 });
 
+//total orders
+router.get("/all", auth, admin, async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate("productId", "name price")
+      .populate("userId", "name email");
+
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
 
 module.exports = router;

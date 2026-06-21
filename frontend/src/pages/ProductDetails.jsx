@@ -11,7 +11,7 @@ function ProductDetails() {
   const getProduct = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API}/products/${id}`
+        `${import.meta.env.VITE_API_URL || ""}/api/products/${id}`
       );
       setProduct(res.data);
     } catch (error) {
@@ -27,7 +27,7 @@ function ProductDetails() {
   const confirmPurchase = async () => {
     try {
       await axios.post(
-        `${import.meta.env.VITE_API}/orders`,
+        `${import.meta.env.VITE_API_URL || ""}/api/orders`,
         {
           productId: product._id,
           quantity: 1

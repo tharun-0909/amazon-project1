@@ -1,10 +1,10 @@
 services:
-  # Fullstack Web Service (Express Backend serving Vite Frontend)
+  # Backend API (Express) - Frontend is deployed on Vercel
   - type: web
     name: amazon-project
     env: node
     rootDir: Backend
-    buildCommand: npm install && npm run build
+    buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: MONGO_URI
@@ -13,5 +13,5 @@ services:
         generateValue: true
       - key: PORT
         value: 5000
-      - key: VITE_API
-        value: /api
+      - key: FRONTEND_URL
+        sync: false
